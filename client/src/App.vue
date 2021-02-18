@@ -1,12 +1,20 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="d-flex main-container">
+      <Sidebar />
+      <router-view />
     </div>
-    <router-view/>
   </div>
 </template>
+
+<script>
+import Sidebar from './components/Sidebar'
+export default {
+  components: {
+    Sidebar
+  }
+}
+</script>
 
 <style>
 #app {
@@ -28,5 +36,13 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.main-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 </style>

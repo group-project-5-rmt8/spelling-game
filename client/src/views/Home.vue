@@ -1,18 +1,43 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="card text-clue">
+      Sanitizer
+    </div>
+
+    <div>
+      <div class="row">
+        <!-- <div class="col" v-for="aword in wordArray" :key="aword" v-text="aword" ></div> -->
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
   name: 'Home',
-  components: {
-    HelloWorld
+  data () {
+    return {
+      word: 'SANITIZER'
+    }
   }
+  // computed: {
+  //   wordArray: this.word.split('')
+  // },
+  // created () {
+  //   console.log(this.wordArray)
+  // }
 }
 </script>
+
+<style>
+.home {
+  margin: 30px;
+  width: 100%;
+}
+.text-clue {
+  padding: 20px;
+  font-size: 50px;
+}
+</style>
