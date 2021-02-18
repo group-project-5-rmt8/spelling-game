@@ -1,13 +1,30 @@
 <template>
   <div class="home">
     <div class="card text-clue">
-      Sanitizer
+      {{ word }}
     </div>
 
-    <div>
+    <div class="container" style="margin-top: 5%">
       <div class="row">
-        <!-- <div class="col" v-for="aword in wordArray" :key="aword" v-text="aword" ></div> -->
+        <div
+          class="col card"
+          v-for="n in word.length"
+          :key="n"
+          id="alphabetCard"
+          v-text="charContainer[n]"
+        >
+          <!-- {{ charContainer[n] || '' }} -->
+        </div>
       </div>
+    </div>
+
+    <div class=" d-flex justify-content-center" style="margin-top: 10%">
+      <input
+        type="text"
+        v-model="inputChar"
+        maxlength="1"
+        @keydown="onChangeWord"
+      />
     </div>
   </div>
 </template>
@@ -19,15 +36,25 @@ export default {
   name: 'Home',
   data () {
     return {
-      word: 'SANITIZER'
+      word: 'postgres',
+      inputChar: '',
+      charContainer: []
+    }
+  },
+  methods: {
+    onChangeWord (event) {
+      console.log(event.key)
+      if (event.key !== 'Enter') {
+        this.charContainer.push(this.inputChar)
+        this.inputChar = ''
+      }
+    }
+  },
+  computed: {
+    wordArray: function () {
+      return this.word.split('')
     }
   }
-  // computed: {
-  //   wordArray: this.word.split('')
-  // },
-  // created () {
-  //   console.log(this.wordArray)
-  // }
 }
 </script>
 
@@ -39,5 +66,9 @@ export default {
 .text-clue {
   padding: 20px;
   font-size: 50px;
+}
+
+#alphabetCard {
+  padding: 20px;
 }
 </style>
