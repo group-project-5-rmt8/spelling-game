@@ -1,10 +1,10 @@
 const socket = (io) => {
   io.on("connection", (socket) => {
-    console.log("user connected");
+    console.log("user connecteddddd");
 
-    socket.on("getDataWord", (data) => {
+    socket.on("onChangeWord", (data) => {
       console.log(data, '<<<< data masuk ke server');
-      io.emit("receiveGetDataWord", data)
+      io.emit("receiveOnChangeWord", data)
     })
 
   })
