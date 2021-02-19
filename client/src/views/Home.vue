@@ -8,24 +8,31 @@
       <div class="row">
         <!-- <div class="col" v-for="aword in wordArray" :key="aword" v-text="aword" ></div> -->
       </div>
-      <button @click="getDataWord" >test</button>
     </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 
 export default {
   name: 'Home',
   data () {
     return {
-      word: 'SANITIZER'
+      word: 'SANITIZER',
+      wordArray: [],
+      isValid: false
     }
   },
   methods: {
     getDataWord () {
       this.$socket.emit('getDataWord', ['t', 'e', 's', 't'])
+    },
+    onChangeWord (char) {
+      this.wordArray.push(char)
+      const wordCutted = this.word.slice(0, this.wordArray.length)
+      if (wordCutted === this.wordArray) {
+        this.isValid = true
+      }
     }
   }
   // computed: {
