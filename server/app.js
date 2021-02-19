@@ -21,6 +21,10 @@ app.use(router)
 io.on('connection', function (socket) {
   console.log('A user connected')
 
+  socket.on('test', (data) =>{
+    console.log(data);
+  })
+
   //Whenever someone disconnects this piece of code executed
   socket.on('disconnect', function () {
     console.log('A user disconnected')

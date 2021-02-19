@@ -13,7 +13,6 @@
           id="alphabetCard"
           v-text="charContainer[n]"
         >
-          <!-- {{ charContainer[n] || '' }} -->
         </div>
       </div>
     </div>
@@ -41,19 +40,20 @@ export default {
   },
   data () {
     return {
-      word: 'postgres',
+      word: 'development',
       inputChar: '',
       charContainer: []
     }
   },
   methods: {
     onChangeWord (event) {
-      console.log(event.key)
+      console.log(this.charContainer)
+      // console.log(event.key)
       if (event.key !== 'Enter') {
         this.charContainer.push(this.inputChar)
-        this.inputChar = ''
         this.$socket.emit('test', event.key)
       }
+      this.inputChar = ''
     }
   },
   computed: {
