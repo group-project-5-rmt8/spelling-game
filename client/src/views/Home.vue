@@ -6,8 +6,19 @@
 
     <div>
       <div class="row">
-        <!-- <div class="col" v-for="aword in wordArray" :key="aword" v-text="aword" ></div> -->
+        <div
+          class="col card"
+          v-for="n in word.length"
+          :key="n"
+          id="alphabetCard"
+          v-text="charContainer[n]"
+        ></div>
       </div>
+    </div>
+
+    <div class=" d-flex justify-content-center" style="margin-top: 10%">
+      <form @submit.prevent="onChangeWord"></form>
+      <input type="text" v-model="inputChar" maxlength="1" />
     </div>
   </div>
 </template>
@@ -19,19 +30,15 @@ export default {
   data () {
     return {
       word: 'SANITIZER',
-      wordArray: [],
+      charContainer: [],
       isValid: false
     }
   },
   methods: {
-    getDataWord () {
-      this.$socket.emit('getDataWord', ['t', 'e', 's', 't'])
-    },
-    onChangeWord (char) {
-      this.wordArray.push(char)
-      const wordCutted = this.word.slice(0, this.wordArray.length)
-      if (wordCutted === this.wordArray) {
-        this.isValid = true
+    onChangeWord (event) {
+      if (event.key !== 'Enter') {
+        this.charContainer.push(this.inputChar)
+        this.$socket.emit('onChangeWord', this.charContainer)
       }
     }
   }

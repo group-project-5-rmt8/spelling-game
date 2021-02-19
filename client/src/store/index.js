@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import socket from '../main'
 
 Vue.use(Vuex)
 
@@ -9,7 +8,7 @@ export default new Vuex.Store({
     data: []
   },
   mutations: {
-    getDataWord(state, dataArray) {
+    getDataWord (state, dataArray) {
       this.data = dataArray
     }
   },
