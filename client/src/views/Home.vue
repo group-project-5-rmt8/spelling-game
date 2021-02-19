@@ -11,21 +11,22 @@
           v-for="n in word.length"
           :key="n"
           id="alphabetCard"
-          v-text="charContainer[n]"
+          v-text="charContainer[n - 1]"
         ></div>
       </div>
     </div>
 
     <div class=" d-flex justify-content-center" style="margin-top: 10%">
-      <form @submit.prevent="onChangeWord"></form>
-      <input type="text" v-model="inputChar" maxlength="1" />
+      <form @submit.prevent="onChangeWord">
+        <input type="text" v-model="inputChar" maxlength="1" />
+        <button type="submit" >Enter</button>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-
 export default {
   name: 'Home',
   sockets: {
@@ -42,11 +43,19 @@ export default {
   },
   methods: {
     onChangeWord (event) {
-      if (event.key !== 'Enter') {
+      if (this.inputChar !== '') {
+        this.inputChar = this.inputChar.toLowerCase()
         this.charContainer.push(this.inputChar)
-        this.$socket.emit('test', event.key)
+        this.$socket.emit('onChangeWord', this.charContainer)
       }
       this.inputChar = ''
+    },
+    updated () {
+      console.log(this.$store.state.listWord, '<<<<< dataaaa')
+      this.charContainer = this.$store.state.listWord
+    },
+    created () {
+      this.charContainer = this.$store.state.listWord
     }
   },
   computed: {
@@ -66,7 +75,6 @@ export default {
   padding: 20px;
   font-size: 50px;
 }
-
 #alphabetCard {
   padding: 20px;
 }
