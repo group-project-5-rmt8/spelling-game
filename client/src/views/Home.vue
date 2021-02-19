@@ -8,6 +8,7 @@
       <div class="row">
         <!-- <div class="col" v-for="aword in wordArray" :key="aword" v-text="aword" ></div> -->
       </div>
+      <button @click="getDataWord" >test</button>
     </div>
   </div>
 </template>
@@ -20,6 +21,11 @@ export default {
   data () {
     return {
       word: 'SANITIZER'
+    }
+  },
+  methods: {
+    getDataWord () {
+      this.$socket.emit('getDataWord', ['t', 'e', 's', 't'])
     }
   }
   // computed: {
