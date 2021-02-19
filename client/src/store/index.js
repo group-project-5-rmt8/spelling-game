@@ -10,7 +10,7 @@ export default new Vuex.Store({
   },
   mutations: {
     CHANGE_LIST_WORD (state, data) {
-      state.listWord = data
+      state.listWord.push(data)
     }
   },
   actions: {

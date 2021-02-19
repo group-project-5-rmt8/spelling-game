@@ -11,7 +11,7 @@
           v-for="n in word.length"
           :key="n"
           id="alphabetCard"
-          v-text="charContainer[n - 1]"
+          v-text="charContainerComputed[n - 1]"
         ></div>
       </div>
     </div>
@@ -49,12 +49,12 @@ export default {
     onChangeWord (event) {
       if (this.inputChar !== '') {
         this.inputChar = this.inputChar.toLowerCase()
-        this.charContainer.push(this.inputChar)
-        this.$socket.emit('onChangeWord', this.charContainer)
+        // this.charContainer.push(this.inputChar)
+        this.$socket.emit('onChangeWord', this.inputChar)
       }
       this.inputChar = ''
-    },
 
+    },
     getWords () {
       axios
         .get('http://localhost:3000/', {})
@@ -72,7 +72,6 @@ export default {
     },
     created () {
       this.charContainer = this.$store.state.listWord
-
     }
   },
   computed: {
@@ -82,6 +81,9 @@ export default {
     },
     wordArray: function () {
       return this.word.split('')
+    },
+    charContainerComputed: function () {
+      return this.$store.state.listWord
     }
   },
   created () {
