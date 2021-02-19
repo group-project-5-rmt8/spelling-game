@@ -27,6 +27,9 @@
 
 <script>
 // @ is an alias to /src
+
+import axios from 'axios'
+
 export default {
   name: 'Home',
   sockets: {
@@ -36,9 +39,10 @@ export default {
   },
   data () {
     return {
-      word: 'development',
-      inputChar: ''
-      // charContainer: []
+      // word: 'development',
+      inputChar: '',
+      charContainer: [],
+      words: []
     }
   },
   methods: {
@@ -49,15 +53,41 @@ export default {
         this.$socket.emit('onChangeWord', this.inputChar)
       }
       this.inputChar = ''
+
+    },
+    getWords () {
+      axios
+        .get('http://localhost:3000/', {})
+        .then(({ data }) => {
+          console.log(data)
+          this.words = data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+
+    updated () {
+      console.log(this.$store.state.listWord, '<<<<< dataaaa')
+      this.charContainer = this.$store.state.listWord
+    },
+    created () {
+      this.charContainer = this.$store.state.listWord
     }
   },
   computed: {
+    word: function () {
+      const randomizer = Math.floor(Math.random() * 26)
+      return this.words[randomizer]
+    },
     wordArray: function () {
       return this.word.split('')
     },
     charContainerComputed: function () {
       return this.$store.state.listWord
     }
+  },
+  created () {
+    this.getWords()
   }
 }
 </script>
