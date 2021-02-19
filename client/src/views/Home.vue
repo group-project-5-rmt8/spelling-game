@@ -19,6 +19,7 @@
     <div class=" d-flex justify-content-center" style="margin-top: 10%">
       <form @submit.prevent="onChangeWord">
         <input type="text" v-model="inputChar" maxlength="1" />
+        <button type="submit" >Enter</button>
       </form>
     </div>
   </div>
@@ -26,6 +27,7 @@
 
 <script>
 // @ is an alias to /src
+
 import axios from 'axios'
 
 export default {
@@ -46,11 +48,13 @@ export default {
   methods: {
     onChangeWord (event) {
       if (this.inputChar !== '') {
+        this.inputChar = this.inputChar.toLowerCase()
         this.charContainer.push(this.inputChar)
-        this.$socket.emit('test', event.key)
+        this.$socket.emit('onChangeWord', this.charContainer)
       }
       this.inputChar = ''
     },
+
     getWords () {
       axios
         .get('http://localhost:3000/', {})
@@ -61,6 +65,14 @@ export default {
         .catch(err => {
           console.log(err)
         })
+
+    updated () {
+      console.log(this.$store.state.listWord, '<<<<< dataaaa')
+      this.charContainer = this.$store.state.listWord
+    },
+    created () {
+      this.charContainer = this.$store.state.listWord
+
     }
   },
   computed: {
@@ -87,7 +99,6 @@ export default {
   padding: 20px;
   font-size: 50px;
 }
-
 #alphabetCard {
   padding: 20px;
 }
