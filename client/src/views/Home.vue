@@ -11,20 +11,22 @@
           v-for="n in word.length"
           :key="n"
           id="alphabetCard"
-          v-text="charContainer[n]"
+          v-text="charContainer[n - 1]"
         ></div>
       </div>
     </div>
 
     <div class=" d-flex justify-content-center" style="margin-top: 10%">
-      <form @submit.prevent="onChangeWord"></form>
-      <input type="text" v-model="inputChar" maxlength="1" />
+      <form @submit.prevent="onChangeWord">
+        <input type="text" v-model="inputChar" maxlength="1" />
+      </form>
     </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import axios from 'axios'
 
 export default {
   name: 'Home',
@@ -35,24 +37,43 @@ export default {
   },
   data () {
     return {
-      word: 'development',
+      // word: 'development',
       inputChar: '',
-      charContainer: []
+      charContainer: [],
+      words: []
     }
   },
   methods: {
     onChangeWord (event) {
-      if (event.key !== 'Enter') {
+      if (this.inputChar !== '') {
         this.charContainer.push(this.inputChar)
         this.$socket.emit('test', event.key)
       }
       this.inputChar = ''
+    },
+    getWords () {
+      axios
+        .get('http://localhost:3000/', {})
+        .then(({ data }) => {
+          console.log(data)
+          this.words = data
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   },
   computed: {
+    word: function () {
+      const randomizer = Math.floor(Math.random() * 26)
+      return this.words[randomizer]
+    },
     wordArray: function () {
       return this.word.split('')
     }
+  },
+  created () {
+    this.getWords()
   }
 }
 </script>

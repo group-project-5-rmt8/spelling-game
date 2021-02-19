@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
 const router = require('./routes')
+const cors = require('cors')
 
 const http = require('http').Server(app)
 const io = require('socket.io')(http, {
@@ -14,6 +15,7 @@ const io = require('socket.io')(http, {
   allowEIO3: true
 })
 
+app.use(cors())
 app.use(express.json())
 app.use(router)
 
@@ -21,8 +23,8 @@ app.use(router)
 io.on('connection', function (socket) {
   console.log('A user connected')
 
-  socket.on('test', (data) =>{
-    console.log(data);
+  socket.on('test', data => {
+    console.log(data)
   })
 
   //Whenever someone disconnects this piece of code executed
