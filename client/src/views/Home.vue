@@ -34,6 +34,11 @@
 
 export default {
   name: 'Home',
+  sockets: {
+    connect () {
+      console.log('-------------Connected')
+    }
+  },
   data () {
     return {
       word: 'postgres',
@@ -47,6 +52,7 @@ export default {
       if (event.key !== 'Enter') {
         this.charContainer.push(this.inputChar)
         this.inputChar = ''
+        this.$socket.emit('test', event.key)
       }
     }
   },
