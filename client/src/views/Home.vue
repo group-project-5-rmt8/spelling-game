@@ -12,18 +12,13 @@
           :key="n"
           id="alphabetCard"
           v-text="charContainer[n]"
-        >
-        </div>
+        ></div>
       </div>
     </div>
 
     <div class=" d-flex justify-content-center" style="margin-top: 10%">
-      <input
-        type="text"
-        v-model="inputChar"
-        maxlength="1"
-        @keydown="onChangeWord"
-      />
+      <form @submit.prevent="onChangeWord"></form>
+      <input type="text" v-model="inputChar" maxlength="1" />
     </div>
   </div>
 </template>
@@ -47,8 +42,6 @@ export default {
   },
   methods: {
     onChangeWord (event) {
-      console.log(this.charContainer)
-      // console.log(event.key)
       if (event.key !== 'Enter') {
         this.charContainer.push(this.inputChar)
         this.$socket.emit('test', event.key)
